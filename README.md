@@ -4,3 +4,7 @@
 All my python code
 
 Enjoy?
+
+for image class creation:
+www.instructables.com/id/Create-OpenCV-Image-Classifiers-Using-Python/
+    
