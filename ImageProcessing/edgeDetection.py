@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
+#using os to select images from Pictures folder in windows should be changed for when using in linux
 import os
 os.chdir("C:\\Users\matty\Pictures\Saved Pictures")
 
