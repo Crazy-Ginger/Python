@@ -29,8 +29,8 @@ def time(nowOrNot = True):
     print ("time = ",time)
     print (floor(time/60), " hours and ", time%60, " minutes")
 #____________________________________________________________#
-choice = str(input("Is the start time now? "))
-if choice=="yes" or choice=="Yes" or choice=="y" or choice=="Y" or choice=="YES":
+choice = str(input("Is the start time now? ")).upper()
+if choice=="Y" or choice=="YES":
     time(True)
 else:
     time(False)
