@@ -50,7 +50,7 @@ anagram = str(input("Anagram to solve: ")).lower()
 #choice = str(input("True solution? ")).upper() 
 wordlist = list()
 
-with open("C:\Coding\Word_list.txt", "r") as file:
+with open("~/Documents/Source", "r") as file:
     for line in file:
         if (len(line) <= len(anagram)+1):
             line = line.replace("\n", "")
