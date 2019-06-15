@@ -1,17 +1,17 @@
 from math import factorial
 def wordformer(word, pointers):
-    newword = ""
-    for point in pointers:
-        newword = newword + word[point]
-    return newword
+    # newword = ""
+    # for point in pointers:
+    #     newword = newword + word[point]
+    # return newword
+    return "".join(pointers)
 
 def anagramer(oldword):
     anagrams = list()
-    pointers = list()
-    for i in range (0, len(oldword)):
-         pointers.append(i)
+    pointers = list(range(0, len(oldword)))
 
-    swapper, initial_comp, rearrange, asc_swapper, count = 0,0,0,0,2
+    swapper, initial_comp, rearrange, asc_swapper = [0] * 4
+    count = 2
     anagrams.append(wordformer(oldword, pointers))
 
     while count <= factorial(len(oldword)):
