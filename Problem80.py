@@ -7,6 +7,7 @@ getcontext().prec = 101
 for i in range(1, 100):
     numb = str(Decimal(i).sqrt())
     temp = 0
+    print("last 2: ", numb[-2:])
     numb = numb[:-1]
     if len(numb) != 1:
         for char in numb:
