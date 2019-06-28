@@ -12,7 +12,6 @@ for i in range(1, 100):
         for char in numb:
             if char != '.':
                 temp += int(char)
-                total += int(char)
-        print(i, "\tadding: ", temp)
-        # print("total: ", total, "\n")
+        total += temp
+        print(i, "\tadding: ", temp, "\ttotes: ", total)
 print("Total: ", total)
