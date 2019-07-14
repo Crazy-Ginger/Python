@@ -25,7 +25,7 @@ def time(nowOrNot = True):
     if sMin != 0:
         time = time + eMin + (60-sMin)
     else:
-       time = time + eMin 
+       time = time + eMin
     #######################
     print ("time = ",time)
     print (floor(time/60), " hours and ", time%60, " minutes")
