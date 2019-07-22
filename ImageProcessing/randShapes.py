@@ -46,7 +46,7 @@ for i in range (1, random.randint(100, 1000)):
         #creates an empty polygon
         else:
             cv2.polylines(img, randArray(x, y), boo_Filled, (random.randint(0, 255),random.randint(0, 255), random.randint(0, 255)), random.randint(1, 20))
-            
+
     else:
         cont = input("Problem, continue? ")
 
@@ -54,9 +54,9 @@ for i in range (1, random.randint(100, 1000)):
 cv2.imwrite(fileName+ ".png", img)
 grey_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 cannied = cv2.Canny(img, 50, 150)
-                
 
-cv2.imwrite(fileName + "_cannied.png", cannied)                
+
+cv2.imwrite(fileName + "_cannied.png", cannied)
 cv2.imshow("img", img)
 cv2.waitKey(3000)
 cv2.destroyAllWindows()
