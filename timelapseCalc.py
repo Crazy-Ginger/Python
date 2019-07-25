@@ -16,8 +16,10 @@ def time(nowOrNot = True):
     eMin = int(stop[2:4])
     time = 0
     #######################
-    if eHour < sHour:
-        time = time + eHour*60 + (24 - sHour - 1)*60
+    if ((eHour < sHour) and (sMin == 0)):
+        time = time + eHour*60 + (24 - sHour)*60
+    elif ((eHour < sHour) and (sMin != 0)):
+        time = time + eHour*60 + (24 - sHour -1)*60
     else:
         #print("running else")
         time = (eHour - sHour)*60
@@ -27,9 +29,10 @@ def time(nowOrNot = True):
     else:
        time = time + eMin
     #######################
-    print ("time = ",time)
+    print ("time = ",time, " minutes")
     print (floor(time/60), " hours and ", time%60, " minutes")
-#____________________________________________________________#
+
+
 choice = str(input("Is the start time now? ")).upper()
 if choice=="Y" or choice=="YES":
     time(True)
