@@ -31,10 +31,19 @@ def time(nowOrNot = True):
     #######################
     print ("time = ",time, " minutes")
     print (floor(time/60), " hours and ", time%60, " minutes")
+    return time
 
 
 choice = str(input("Is the start time now? ")).upper()
 if choice=="Y" or choice=="YES":
-    time(True)
+    minTime = time(True)
 else:
-    time(False)
+    minTime = time(False)
+print ("\n")
+shutterSpeed = float(input("What shutter Speed will be used: "))
+frames = (minTime*60)/shutterSpeed
+print ("This will be: ", f'{round(frames):,}' , " images")
+if frames/25 > 60:
+    print ("Which will be: ", floor((frames/25)/60), " mins ", round((((frames/25)/60)%1)*60), "secs")
+else:
+    print ("Which will be: ", frames/25, " seconds in length")
