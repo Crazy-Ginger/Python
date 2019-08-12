@@ -46,4 +46,4 @@ print ("This will be: ", f'{round(frames):,}' , " images")
 if frames/25 > 60:
     print ("Which will be: ", floor((frames/25)/60), " mins ", round((((frames/25)/60)%1)*60), "secs")
 else:
-    print ("Which will be: ", frames/25, " seconds in length")
+    print ("Which will be: ", round(frames/25, 1), " seconds in length")
