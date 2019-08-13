@@ -2,19 +2,16 @@
 from lxml import html
 import requests
 
-page = requests.get('http://econpy.pythonanywhere.com/ex/001.html')
+page = requests.get('https://www.timeanddate.com/sun/uk/huddersfield')
 tree = html.fromstring(page.content)
 
-buyers = tree.xpath('//div[@title="buyer-name"]/text()')
-prices = tree.xpath('//span[@class="item-price"]/text()')
+# buyers = tree.xpath('//div[@title="buyer-name"]/text()')
+# prices = tree.xpath('//span[@class="item-price"]/text()')
 
-# print (page.content)
-
-for char in page.content:
-    if char == ">":
-        print (char, "\n")
-    else:
-        print (char)
+# print (page.text)
+opFile = open("DateTime.html", "w")
+opFile.write(page.text)
+opFile.close()
 
 
 #print ('buyers: ', buyers)
