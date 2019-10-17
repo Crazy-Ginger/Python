@@ -41,7 +41,7 @@ else:
     minTime = time(False)
 print ("\n")
 shutterSpeed = float(input("What shutter Speed will be used: "))
-frames = (minTime*60)/shutterSpeed
+frames = (minTime*60)/shutterSpeed + 1
 print ("This will be: ", f'{round(frames):,}' , " images")
 if frames/25 > 60:
     print ("Which will be: ", floor((frames/25)/60), " mins ", round((((frames/25)/60)%1)*60), "secs")
