@@ -9,7 +9,6 @@ alex.pensize(1)
 x = 3
 i =20
 def run_again(x,i):
-        
         alex.forward(5)
         alex.right(x)
         x = x + 1
