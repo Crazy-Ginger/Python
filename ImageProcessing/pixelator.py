@@ -20,9 +20,10 @@ def setBlock(value, startW, startH, blockW, blockH, channel):
 
 
 ######Main code block #######
+file = input()
 blockH = 5 +1
 blockW = 15 +1
-img = cv2.imread("lockScreen.png")
+img = cv2.imread(file)
 
 height, width, channels = img.shape
 print ("height:", height, "width:", width)
