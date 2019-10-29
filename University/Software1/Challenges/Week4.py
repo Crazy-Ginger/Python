@@ -100,6 +100,10 @@ def set_voroni_man(image, nodes, colours):
                 img[x+i, y+j] = (255, 255, 255)
     return img
 
+def growth():
+    print()
+
+
 #####Main Code Block######
 height = int(input("Height: "))
 width = int(input("Width; "))
