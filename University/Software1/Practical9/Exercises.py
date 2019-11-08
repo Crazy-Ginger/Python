@@ -45,9 +45,12 @@ def sum_file(filename):
     return total
 
 def save_user_data(filename, user_dict):
-    file = open(filename, 'r')
-    writer = ""
+    file = open(filename+".txt", 'w')
     for key, val_list in user_dict.items():
-        writer += key + ":"
-        print (val_list)
+        val_list.sort()
+        writer = ">" + key + ":"
+        for values in val_list:
+            writer += "\n\t" + str(values[0]) + "=" + str(values[1])
+        writer += "\n"
+        file.write(writer)
     file.close()
