@@ -31,3 +31,23 @@ def to_upper_case(input_file, output_file):
     in_file.close()
     out_file.close()
     
+def sum_file(filename):
+    ### doesn't work with numbers >9 as haven't implemented it correctly
+    file = open(filename, 'r')
+    total = 0
+    for line in file:
+        for char in line:
+            try:
+                total += int(char)
+            except:
+                print ("invalid char")
+    file.close()
+    return total
+
+def save_user_data(filename, user_dict):
+    file = open(filename, 'r')
+    writer = ""
+    for key, val_list in user_dict.items():
+        writer += key + ":"
+        print (val_list)
+    file.close()
