@@ -30,7 +30,7 @@ def to_upper_case(input_file, output_file):
         out_file.write(str(line).upper())
     in_file.close()
     out_file.close()
-    
+
 def sum_file(filename):
     ### doesn't work with numbers >9 as haven't implemented it correctly
     file = open(filename, 'r')
