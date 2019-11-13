@@ -1,3 +1,5 @@
+### Unfinished and imcomplete
+
 def get_file(filename):
     value_dict = {}
     file = open(filename, 'r')
@@ -15,8 +17,8 @@ def get_file(filename):
 def get_totals(dict_val):
     new_dict = {}
     for key, val in dict_val.items():
-        
-    
+
+
 def out_file(filename, dict_val):
     file = open(filename+".csv", "w")
-    
+
