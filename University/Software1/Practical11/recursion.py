@@ -30,4 +30,3 @@ def flatten(mlist):
         return rlist
     elif len(mlist) == 1:
         return mlist[0]
-    

@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 '''
 Created on 1 Dec 2016
 
