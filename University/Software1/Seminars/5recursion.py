@@ -2,13 +2,14 @@
 
 # probably non-functional and won't work
 def sum_all(numbers):
+    total = 0
     if len(numbers) > 1:
         if type(numbers[0])==list:
             return total + sum_all(numbers[0])
         else:
             return total + sum_all(numbers[1:])
     else:
-        return number[0]
+        return numbers[0]
 
 def to_binary(number):
     if number < 2:
@@ -23,7 +24,8 @@ def to_base10(binary):
     else:
          return int(binary[0])*(2**(len(binary)-1)) + to_base10(binary[1:])
 
-x = "83"
-y = to_binary(x)
-print (to_binary(x))
-print (to_base10(y))
+# x = "83"
+# y = to_binary(x)
+# print (to_binary(x))
+# print (to_base10(y))
+sum_all([1,2,[3,4]])
