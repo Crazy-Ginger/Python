@@ -26,29 +26,24 @@ def rec_sum(numbers):
 
 #5
 def flatten(mlist):
-    print ("mlist:",mlist, "length:", len(mlist))
-    if len(mlist) == 0:
-        pass
+    if len(mlist) > 1:
+        if type(mlist[0]) == list and len(mlist[0]) > 0:
+            nlist = flatten(mlist[0])
+            nlist += flatten(mlist[1:])
 
-    elif type(mlist[0]) != list and len(mlist) > 1:
-        print ("#1")
-        nlist = [mlist[0]]
-        print ("nlist:",nlist)
-        nlist.append(flatten(mlist[1:]))
-        return nlist
-
-    elif type(mlist[0]) == list:
-        print ("#2")
-        nlist = [flatten(mlist[0])]
-        return nlist
-
-    elif len(mlist) == 1:
-        print ("#3")
-        return mlist[0]
+        else:
+            nlist =  [mlist[0]]
+            nlist = nlist + flatten(mlist[1:])
+    else:
+        if type(mlist[0]) == list:
+            nlist = mlist[0]
+        else:
+            nlist = mlist
+    return nlist
 
 
 ### Debug code
-x = flatten([1,2,3,4])
-print (x,"\n\n\n")
-
-print (flatten([1,2,[3,4,],5]))
+print (flatten([0,1,2,3,4]))
+print (flatten([[1], [1,[2,3]],3,4]))
+print (flatten([[1], [], [], [2,[],[3]]]))
+print (flatten([[1], [1,[2,3]],3,4]))
