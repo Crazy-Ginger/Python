@@ -34,16 +34,15 @@ def flatten(mlist):
         else:
             nlist =  [mlist[0]]
             nlist = nlist + flatten(mlist[1:])
+
     else:
         if type(mlist[0]) == list:
-            nlist = mlist[0]
+            nlist = flatten(mlist[0])
         else:
             nlist = mlist
+    print (nlist)
     return nlist
 
 
 ### Debug code
-print (flatten([0,1,2,3,4]))
-print (flatten([[1], [1,[2,3]],3,4]))
 print (flatten([[1], [], [], [2,[],[3]]]))
-print (flatten([[1], [1,[2,3]],3,4]))
