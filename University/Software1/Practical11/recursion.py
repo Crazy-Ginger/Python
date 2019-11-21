@@ -25,24 +25,57 @@ def rec_sum(numbers):
         return 0
 
 #5
-def flatten(mlist):
-    if len(mlist) > 1:
-        if type(mlist[0]) == list and len(mlist[0]) > 0:
-            nlist = flatten(mlist[0])
-            nlist += flatten(mlist[1:])
+def __call_flatten(mlist):
+    nlist = "Empty"
+    if not mlist:
+        return mlist
+    elif len(mlist) > 1:
+        if type(mlist[0]) == list:
+            if len(mlist[0]) > 0:
+                nlist = flatten(mlist[0]) + flatten(mlist[1:])
+            elif len(mlist[0]) == 0:
+                nlist = flatten(mlist[1:])
+            else:
+                pass
 
         else:
-            nlist =  [mlist[0]]
-            nlist = nlist + flatten(mlist[1:])
+            nlist =  [mlist[0]] + flatten(mlist[1:])
 
     else:
         if type(mlist[0]) == list:
-            nlist = flatten(mlist[0])
+            if len(mlist[0]) > 0:
+                nlist = flatten(mlist[0])
+            elif len(mlist[0]) == 0:
+                nlist = flatten(mlist[1:])
+            else:
+                pass
         else:
             nlist = mlist
-    print (nlist)
+
     return nlist
 
+def flatten(mlist):
+    return __call_flatten(mlist.copy())
 
-### Debug code
-print (flatten([[1], [], [], [2,[],[3]]]))
+#6
+def merge(sorted_listA, sorted_listB):
+    sorted_list = []
+    if len(sorted_listA) > 0 and len(sorted_listB) > 0:
+        if sorted_listA <= sorted_listB:
+            sorted_list.append(sorted_listA[0])
+            sorted_list += merge(sorted_listA[1:], sorted_listB)
+
+        else:
+            sorted_list.append(sorted_listB[0])
+            sorted_list += merge(sorted_listA,sorted_listB[1:])
+
+    elif len(sorted_listA) == 0:
+        sorted_list += sorted_listB
+
+    elif len(sorted_listB) == 0:
+        sorted_list += sorted_listA
+
+    else:
+        print ("Error")
+
+    return sorted_list
