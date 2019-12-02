@@ -6,6 +6,7 @@ def wildcard_pattern(card, pat):
         return ''
     elif pat not in card:
         return card
+
     for i in range(len(card)):
         if card[i] == pat and len(words) == 0:
             words.append("0")
@@ -35,5 +36,5 @@ def __caller(words):
     return n_words
 
 # print (wildcard_pattern("?01010"))
-# print (wildcard_pattern("??0101"))
-# print (wildcard_pattern("???"))
+# print (wildcard_pattern("??0101", '?'))
+print (wildcard_pattern("??", '?'))
