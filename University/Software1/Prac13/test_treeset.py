@@ -53,7 +53,6 @@ class TestTreeSet(unittest.TestCase):
                     [10,[],[14,[13,[],[]],[]]]]
         self.assertEqual([14,13,10,8,7,6,4,3,-1], get_values(treeset))
 
-
     def test_contains(self):
         treeset = [8, [3, [-1,[],[]],[6,[4,[],[]],[7,[],[]]]],
                     [10,[],[14,[13,[],[]],[]]]]
@@ -67,7 +66,6 @@ class TestTreeSet(unittest.TestCase):
         self.assertTrue(contains(13, treeset))
         self.assertTrue(contains(10, treeset))
         self.assertTrue(contains(6, treeset))
-
 
     def test_equals(self):
         treesetA = [5, [], [19, [], [21,[],[25,[],[]]]]]

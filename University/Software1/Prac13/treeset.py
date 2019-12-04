@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from math import inf
+import numpy as np
 
 # 1: adding element to tree
 def add(element, btree):
@@ -16,6 +17,8 @@ def add(element, btree):
             return __add(element, tree[2])
         else:
             return __add(element, tree[1])
+    return __add(element, btree)
+
 
 # 2: checks if the tree contains the element passed
 def contains(element, treeset):
@@ -30,13 +33,40 @@ def contains(element, treeset):
     elif element < treeset[0]:
         return contains(element, treeset[1])
 
+
 # 3:
 def equals(tree_a, tree_b):
     pass
 
+
 # 4:
 def get_values(tree):
-    pass
+    def __values(tree):
+        if len(tree) == 0:
+            return []
+        elif len(tree) == 1:
+            return [tree[0]]
+        elif tree[1] == tree[2] == []:
+            return [tree[0]]
+        elif tree[1] == [] and tree[2] != []:
+            return [[tree[0]] + __values(tree[2])]
+        elif tree[1] != [] and tree[2] == []:
+            return [__values(tree[1]) + [tree[0]]]
+        elif tree[1] != [] and tree[2] != []:
+            return [__values(tree[1]) + [tree[0]] + __values(tree[2])]
+
+
+    if tree == []:
+        return []
+    vals = np.array(__values(tree))
+    print (vals)
+    vals.flatten()
+    print (vals)
+    vals.sort()
+    print (vals)
+    return vals[::-1]
+
+
 
 # 5: checking if tree is empty
 def isempty(tree):
@@ -46,6 +76,7 @@ def isempty(tree):
         return True
     else:
         return False
+
 
 # 6: finding max value in tree (even if not BST)
 def maxvalue(tree):
@@ -71,6 +102,7 @@ def maxvalue(tree):
         return currentMax
     return __maxFinder__(tree, -inf)
 
+
 # 7: finding min value in tree (even if not BST)
 def minvalue(btree):
     def __minFinder__(tree, currentMin):
@@ -95,6 +127,7 @@ def minvalue(btree):
         return currentMin
     return __minFinder__(btree, inf)
 
+
 # 8: removes the passed element from the tree
 def remove(element, tree):
     pass
@@ -115,4 +148,4 @@ exam = [8,
    ]
         ]
 
-print (add(0,exam))
+print (get_values(exam))
