@@ -18,44 +18,44 @@ class TestTreeSet(unittest.TestCase):
     def test_add_emptyset(self):
         tree = []
         add(3, tree)
-        self.assertEquals([3,[],[]], tree)        
+        self.assertEqual([3,[],[]], tree)
         add(3, tree)
-        self.assertEquals([3,[],[]], tree)        
+        self.assertEqual([3,[],[]], tree)
         add(1, tree)
-        self.assertEquals([3, [1, [], []], []], tree)
+        self.assertEqual([3, [1, [], []], []], tree)
         add(2, tree)
-        self.assertEquals([3, [1, [], [2, [], []]], []], tree)   
+        self.assertEqual([3, [1, [], [2, [], []]], []], tree)
         add(2, tree)
-        self.assertEquals([3, [1, [], [2, [], []]], []], tree)   
-        add(4, tree)     
-        self.assertEquals([3, [1, [], [2, [], []]], [4, [], []]], tree)
+        self.assertEqual([3, [1, [], [2, [], []]], []], tree)
+        add(4, tree)
+        self.assertEqual([3, [1, [], [2, [], []]], [4, [], []]], tree)
 
     def test_maxvalue(self):
         treeset = []
-        self.assertAlmostEquals(float('-inf'), maxvalue(treeset), delta= 0.0000001)
+        self.assertAlmostEqual(float('-inf'), maxvalue(treeset), delta= 0.0000001)
         treeset = [8, [3, [1,[],[]],[6,[4,[],[]],[7,[],[]]]], [10,[],[14,[13,[],
                     []],[]]]]
-        self.assertAlmostEquals(14, maxvalue(treeset), delta= 0.0000001)
-        self.assertAlmostEquals(0, maxvalue([0,[],[]]), delta= 0.0000001)
-  
+        self.assertAlmostEqual(14, maxvalue(treeset), delta= 0.0000001)
+        self.assertAlmostEqual(0, maxvalue([0,[],[]]), delta= 0.0000001)
+
     def test_minvalue(self):
         treeset = []
-        self.assertAlmostEquals(float('inf'), minvalue(treeset), delta= 0.0000001)
-        treeset = [8, [3, [-1,[],[]],[6,[4,[],[]],[7,[],[]]]], 
+        self.assertAlmostEqual(float('inf'), minvalue(treeset), delta= 0.0000001)
+        treeset = [8, [3, [-1,[],[]],[6,[4,[],[]],[7,[],[]]]],
                     [10,[],[14,[13,[],[]],[]]]]
-        self.assertAlmostEquals(-1, minvalue(treeset), delta= 0.0000001)
-        self.assertAlmostEquals(0, minvalue([0,[],[]]), delta= 0.0000001)
+        self.assertAlmostEqual(-1, minvalue(treeset), delta= 0.0000001)
+        self.assertAlmostEqual(0, minvalue([0,[],[]]), delta= 0.0000001)
 
     def test_getvalues(self):
-        self.assertEquals([], get_values([]))
-        self.assertEquals([3], get_values([3,[],[]]))
-        treeset = [8, [3, [-1,[],[]],[6,[4,[],[]],[7,[],[]]]], 
+        self.assertEqual([], get_values([]))
+        self.assertEqual([3], get_values([3,[],[]]))
+        treeset = [8, [3, [-1,[],[]],[6,[4,[],[]],[7,[],[]]]],
                     [10,[],[14,[13,[],[]],[]]]]
-        self.assertEquals([14,13,10,8,7,6,4,3,-1], get_values(treeset))
+        self.assertEqual([14,13,10,8,7,6,4,3,-1], get_values(treeset))
 
 
     def test_contains(self):
-        treeset = [8, [3, [-1,[],[]],[6,[4,[],[]],[7,[],[]]]], 
+        treeset = [8, [3, [-1,[],[]],[6,[4,[],[]],[7,[],[]]]],
                     [10,[],[14,[13,[],[]],[]]]]
         self.assertFalse(contains(1,[]))
         self.assertFalse(contains(1,[3,[],[]]))
@@ -84,20 +84,20 @@ class TestTreeSet(unittest.TestCase):
     def test_remove(self):
         set_a = [5,[2,[-4,[],[]], [3, [], []]],[18,[],[]]]
         remove(-4, set_a)
-        self.assertEquals([5,[2,[], [3, [], []]],[18,[],[]]], set_a, 'failed to remove a leaf!')
+        self.assertEqual([5,[2,[], [3, [], []]],[18,[],[]]], set_a, 'failed to remove a leaf!')
 
         set_b = [5,[2,[-4,[],[]], [3, [], []]],[18,[],[21,[19,[],[]],[25,[],[]]]]]
         remove(18, set_b)
-        self.assertEquals([5,[2,[-4,[],[]], [3, [], []]],[21,[19,[],[]],[25,[],[]]]], set_b, 'failed to remove node with right child only!')
+        self.assertEqual([5,[2,[-4,[],[]], [3, [], []]],[21,[19,[],[]],[25,[],[]]]], set_b, 'failed to remove node with right child only!')
 
         set_c = [5,[2,[-4,[],[]], [3, [], []]],[27,[21,[19,[],[]],[25,[],[]]], []]]
         remove(27, set_c)
-        self.assertEquals([5,[2,[-4,[],[]], [3, [], []]],[21,[19,[],[]],[25,[],[]]]], set_c, 'failed to remove node with left child only!')
+        self.assertEqual([5,[2,[-4,[],[]], [3, [], []]],[21,[19,[],[]],[25,[],[]]]], set_c, 'failed to remove node with left child only!')
 
         set_d = [5,[2,[-4,[],[]], [3, [], []]],[12,[9,[],[]],[21,[19,[],[]],[25,[],[]]]]]
         remove(12, set_d)
-        self.assertEquals([5,[2,[-4,[],[]], [3, [], []]],[19,[9,[],[]],[21,[],[25,[],[]]]]], set_d, 'failed to remove node two children!')
+        self.assertEqual([5,[2,[-4,[],[]], [3, [], []]],[19,[9,[],[]],[21,[],[25,[],[]]]]], set_d, 'failed to remove node two children!')
 
 
-
-
+if __name__ == '__main__':
+    unittest.main()

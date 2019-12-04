@@ -3,7 +3,6 @@ import unittest
 from practical12 import wildcard_pattern
 
 class TestWildcard(unittest.TestCase):
-
     def test_empty(self):
         self.assertEquals({''}, wildcard_pattern('', '?'))
 
@@ -17,7 +16,6 @@ class TestWildcard(unittest.TestCase):
     def test_onlywildcard(self):
         self.assertEquals({'00','01','10','11'},
                             wildcard_pattern('??', '?'))
-
 
 if __name__ == '__main__':
     unittest.main()
