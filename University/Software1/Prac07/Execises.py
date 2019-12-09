@@ -9,8 +9,8 @@ def concat_dico(dico1, dico2):
     new_dico = {}
     for key, val in dico1.items():
         new_dico[key] = val
-        
-    for key, val in dico2.items():
+
+    for key, val in dico2.item
         if key in new_dico:
             temp = []
             temp.append(new_dico[key])

@@ -25,37 +25,12 @@ def rec_sum(numbers):
         return 0
 
 #5
-def __call_flatten(mlist):
-    nlist = "Empty"
-    if not mlist:
-        return mlist
-    elif len(mlist) > 1:
-        if type(mlist[0]) == list:
-            if len(mlist[0]) > 0:
-                nlist = flatten(mlist[0]) + flatten(mlist[1:])
-            elif len(mlist[0]) == 0:
-                nlist = flatten(mlist[1:])
-            else:
-                pass
-
-        else:
-            nlist =  [mlist[0]] + flatten(mlist[1:])
-
-    else:
-        if type(mlist[0]) == list:
-            if len(mlist[0]) > 0:
-                nlist = flatten(mlist[0])
-            elif len(mlist[0]) == 0:
-                nlist = flatten(mlist[1:])
-            else:
-                pass
-        else:
-            nlist = mlist
-
-    return nlist
-
-def flatten(mlist):
-    return __call_flatten(mlist.copy())
+def flatten(S):
+    if S == []:
+        return S
+    if isinstance(S[0], list):
+        return flatten(S[0]) + flatten(S[1:])
+    return S[:1] + flatten(S[1:])
 
 #6
 def merge(sorted_listA, sorted_listB):
@@ -79,3 +54,37 @@ def merge(sorted_listA, sorted_listB):
         print ("Error")
 
     return sorted_list
+
+
+# old 5(found a better one on the internet)
+# def __call_flatten(mlist):
+    # nlist = "Empty"
+    # if not mlist:
+        # return mlist
+    # elif len(mlist) > 1:
+        # if type(mlist[0]) == list:
+            # if len(mlist[0]) > 0:
+                # nlist = flatten(mlist[0]) + flatten(mlist[1:])
+            # elif len(mlist[0]) == 0:
+                # nlist = flatten(mlist[1:])
+            # else:
+                # pass
+
+        # else:
+            # nlist =  [mlist[0]] + flatten(mlist[1:])
+
+    # else:
+        # if type(mlist[0]) == list:
+            # if len(mlist[0]) > 0:
+                # nlist = flatten(mlist[0])
+            # elif len(mlist[0]) == 0:
+                # nlist = flatten(mlist[1:])
+            # else:
+                # pass
+        # else:
+            # nlist = mlist
+
+    # return nlist
+
+# # def flatten(mlist):
+    # # return _flatten(mlist.copy())

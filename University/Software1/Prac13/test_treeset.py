@@ -19,8 +19,6 @@ class TestTreeSet(unittest.TestCase):
         tree = []
         add(3, tree)
         self.assertEqual([3,[],[]], tree)
-        add(3, tree)
-        self.assertEqual([3,[],[]], tree)
         add(1, tree)
         self.assertEqual([3, [1, [], []], []], tree)
         add(2, tree)
