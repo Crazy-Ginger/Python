@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 from math import inf
-import numpy as np
 
 # 1: adding element to tree
 def add(element, tree):
@@ -119,11 +118,60 @@ def minvalue(btree):
 
 # 8: removes the passed element from the tree
 def remove(element, tree):
+    def __remover(element, tree):
+        if tree[0] == element:
+            if not tree[1] and not tree[2]:
+                print ("Removing:",tree[0])
+                del tree[:]
+
+            elif tree[1] and not tree[2]:
+                subtree = tree[1]
+                del tree[:]
+                print ("removing:",element)
+                to_add = get_values(subtree)
+                for elem in to_add:
+                    add(elem, tree)
+
+            elif not tree[1] and tree[2]:
+                subtree = tree[2]
+                del tree[:]
+                print ("removing:",element)
+                to_add = get_values(subtree)
+                for elem in to_add:
+                    add(elem, tree)
+
+        elif element > tree[0]:
+            return __remover(element, tree[2])
+
+        elif element < tree[0]:
+            return __remover(element, tree[1])
+
     if contains(element, tree) == False:
         return tree
-    w
+
+    __remover(element, tree)
 
 
+# extra to assist with removing elements
+def get_values_h(tree):
+    if tree==[]:
+        return []
+    elif isinstance(tree, int):
+        return [tree]
+    elif len(tree) == 1:
+        return tree[:1]
+
+    elif tree[1] == tree[2] == []:
+        return tree[:1]
+
+    elif not tree[1] and tree[2]:
+        return  get_values_h(tree[0]) + get_values_h(tree[2])
+
+    elif tree[1]and not tree[2]:
+        return  get_values_h(tree[0]) + get_values_h(tree[1])
+
+    elif tree[1] and tree[2]:
+        return get_values_h(tree[0]) +  get_values_h(tree[1]) + get_values_h(tree[2])
 
 # this is a better method if using a class as it doens't change the value by reference and also rebalances the tree so that it is optimal for sorting
 # def remove(element, tree):
@@ -162,6 +210,6 @@ def remove(element, tree):
 
 exam = [8,[3,[1,[],[]],[6,[4,[],[]],[7,[],[]]]],[10,[],[14,[13,[],[]],[]]]]
 
-remove(7, exam)
-
-print (exam)
+print (get_values_h(exam))
+# remove(14, exam)
+# print (exam)
