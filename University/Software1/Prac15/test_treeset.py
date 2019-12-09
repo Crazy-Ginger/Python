@@ -3,30 +3,27 @@ from treeset import TreeSet
 
 
 class TestTreeSet(unittest.TestCase):
-
-
     def test_add_emptyset(self):
         tree = TreeSet()
         for i in [3, 1, 2, 4]:
             tree.add(i)
 
         # Check root
-        self.assertEquals(3, tree._root)  
+        self.assertEquals(3, tree._root)
 
         # check left child      
-        self.assertEquals(1, tree._left._root)        
-        self.assertIsNone (tree._left._left)        
+        self.assertEquals(1, tree._left._root)
+        self.assertIsNone (tree._left._left)
 
         # check right child
-        self.assertEquals(4, tree._right._root)        
-        self.assertIsNone (tree._right._left)     
-        self.assertIsNone (tree._right._right)     
+        self.assertEquals(4, tree._right._root)
+        self.assertIsNone (tree._right._left)
+        self.assertIsNone (tree._right._right)
 
         # Check left->right grand child
-        self.assertEquals(2, tree._left._right._root)        
-        self.assertIsNone (tree._left._right._left)        
-        self.assertIsNone (tree._left._right._right)        
-
+        self.assertEquals(2, tree._left._right._root)
+        self.assertIsNone (tree._left._right._left)
+        self.assertIsNone (tree._left._right._right)
 
     def test_contains(self):
         tree = TreeSet(8)
@@ -39,7 +36,6 @@ class TestTreeSet(unittest.TestCase):
         for i in [-2, 0, 15]:
             self.assertFalse(i in tree)
             self.assertTrue(i not in tree)
-    
 
     def test_equals(self):
         treesetA = TreeSet()
@@ -83,7 +79,7 @@ class TestTreeSet(unittest.TestCase):
         for i in [5, 19, 25]:
             treesetB.add(i)
         self.assertEquals(treesetA, treesetB)
-        
+
         treesetA.remove(5)
         treesetA.remove(25)
         treesetC = TreeSet()
