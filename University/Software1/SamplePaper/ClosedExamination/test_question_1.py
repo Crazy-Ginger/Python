@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import unittest
 from question_1 import to_barcode
 

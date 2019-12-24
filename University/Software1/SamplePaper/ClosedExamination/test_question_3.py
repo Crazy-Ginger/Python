@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 '''
 Created on 8 May 2019
 
@@ -47,7 +48,6 @@ class TestQuestion3(unittest.TestCase):
         """
         self.assertRaises(ValueError, two_out_five, '1100000111') #Too many 1s must raise a ValueError!
         self.assertRaises(ValueError, two_out_five, '1100000100') #Too many 0s must raise a ValueError!
-       
 
 if __name__ == "__main__":
     unittest.main()
