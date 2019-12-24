@@ -9,33 +9,32 @@ from question_2 import detect_correct
 
 
 class TestQuestion2(unittest.TestCase):
-
     def test_detect_correct(self):
         '''
-        Test to check that you handle properly inputs having no errors, at 
+        Test to check that you handle properly inputs having no errors, at
         least one error, multiple errors. Also test if the errors have been
-        corrected correctly. 
+        corrected correctly.
         '''
-        self.assertEqual(('010',1), 
-                         detect_correct('000111001'), 
+        self.assertEqual(('010',1),
+                         detect_correct('000111001'),
                          'Should have detected an error from the last three bits and corrected it to a 0')
 
-        self.assertEqual(('010',0), 
-                         detect_correct('000111000'), 
+        self.assertEqual(('010',0),
+                         detect_correct('000111000'),
                          'You should not have found an error in the word.')
-        
-        self.assertEqual(('1101',4), 
-                         detect_correct('101110001011'), 
+
+        self.assertEqual(('1101',4),
+                         detect_correct('101110001011'),
                          'Each three bits word has an error, the number of errors returned should be 4.')
-        
+
 
     def test_detect_correct_empty_word(self):
         '''
-        Test if you handle empty words. An empty word as input should return an empty 
+        Test if you handle empty words. An empty word as input should return an empty
         word as a result with no error detected.
         '''
-        self.assertEqual(('',0), 
-                         detect_correct(''), 
+        self.assertEqual(('',0),
+                         detect_correct(''),
                          'An empty word should return an empty message with 0 error.')
 
 
@@ -53,7 +52,7 @@ class TestQuestion2(unittest.TestCase):
         word contains symbols other than 1s and 0s a ValueError is raised
         '''
         self.assertRaises(ValueError, detect_correct,'011200')
-        
+
 
     def test_detect_correct_input_TypeError(self):
         '''
@@ -61,7 +60,6 @@ class TestQuestion2(unittest.TestCase):
         data type of teh input is not a string a TypeError is raised
         '''
         self.assertRaises(TypeError, detect_correct,[0,1,1,0,0,0])
-
 
 
 if __name__ == "__main__":
