@@ -13,14 +13,13 @@ def two_out_five(message):
         for j in range(0, 5):
             if message[i+j] == "1":
                 one_count += 1
-                total += adders[i+j]
+                total += adders[j]
             elif message[i+j] != "0":
-                print ("message[",i,"+",j,"]: ", message[i+j])
                 raise ValueError("Exptected only 1's and 0's in input")
-            elif one_count > 2:
-                print ("one_count",one_count)
-                raise ValueError ("Too many 1's in input")
-        if total == 11:
+
+        if one_count != 2:
+            raise ValueError ("Too many 1's or 0's in input")
+        elif total == 11:
             final_total += "0"
         else:
             final_total += str(total)
