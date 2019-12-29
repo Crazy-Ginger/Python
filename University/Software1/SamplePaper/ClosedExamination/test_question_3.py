@@ -8,7 +8,6 @@ import unittest
 from question_3 import two_out_five
 
 class TestQuestion3(unittest.TestCase):
-
     def test_valid_input(self):
         """
         Test to check that all digits (0..9) binary representation have been
@@ -26,7 +25,7 @@ class TestQuestion3(unittest.TestCase):
         self.assertEqual('8', two_out_five('10010'))
         self.assertEqual('9', two_out_five('10100'))
         self.assertEqual('019', two_out_five('110000001110100'))
-       
+
     def test_type_error(self):
         """
         Test if invalid input type are handled correctly, that is a TypeError
