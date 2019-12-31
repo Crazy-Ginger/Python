@@ -7,7 +7,7 @@ from math import log, hypot
 from PIL import Image
 def node_gen(width, height):
     nodes= []
-    for i in range(4, round((log(height*width)))):
+    for i in range(Rint(25, 100)):
         nodes.append([Rint(6, width-7), Rint(6, height-7)])
     colours = []
     for i in range(len(nodes)):
