@@ -9,7 +9,6 @@ from question_4 import import_from_CSV
 
 
 class TestQuestion4(unittest.TestCase):
-
     def test_from_CSV_no_dash(self):
         '''
         Test to check if a properly formatted file containing numeric values
@@ -51,7 +50,6 @@ class TestQuestion4(unittest.TestCase):
         '''
         self.assertRaises(IOError, 
                          import_from_CSV,'data//test_data_missing_entries.csv')
-                         
 
 
 if __name__ == "__main__":

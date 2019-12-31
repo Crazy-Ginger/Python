@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 import unittest
-from question_5_modelanswers import Point
-from question_5_modelanswers import Polygon
+from question_5 import Point
+from question_5 import Polygon
 
 class TestQuestion5i(unittest.TestCase):
-    
     def test_split(self):
         """
         Test if the method splits the polygon along a cord into two polygon given two non adjacent vertices.
@@ -87,8 +86,8 @@ class TestQuestion5i(unittest.TestCase):
                         break
 
                     currentindex += 1
-                
-                if are_equals:  
+
+                if are_equals:
                     # they are equals when going thought the vertices in 
                     # clockwise order
                     return True
@@ -106,7 +105,7 @@ class TestQuestion5i(unittest.TestCase):
                         return False
 
                     currentindex -= 1
-                
+
                 return True
 
             except:
