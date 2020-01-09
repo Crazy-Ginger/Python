@@ -1,10 +1,12 @@
+#!/usr/bin/env python3
 from math import factorial
+
 def wordformer(word, pointers):
     # newword = ""
     # for point in pointers:
     #     newword = newword + word[point]
     # return newword
-    return "".join(pointers)
+    return "".join(str(pointers))
 
 def anagramer(oldword):
     anagrams = list()
@@ -45,12 +47,13 @@ def anagramer(oldword):
         count += 1
     return anagrams
 
+
 ###########################################
 anagram = str(input("Anagram to solve: ")).lower()
 #choice = str(input("True solution? ")).upper() 
 wordlist = list()
 
-with open("~/Documents/Source", "r") as file:
+with open("wordList.txt", "r") as file:
     for line in file:
         if (len(line) <= len(anagram)+1):
             line = line.replace("\n", "")
