@@ -11,11 +11,10 @@ class ListNode():
         else:
             return str(self.data) + ", " + self._next.__str__()
 
-        
 class Stack():
     def __init__(self):
         self._top = None
-        
+
     def __str__(self):
         return "LinkedStack([" + str(self._top.__str__())
 
@@ -26,7 +25,7 @@ class Stack():
             index = index._next
             inc += 1
         return inc+1
-    
+
     def push(self, value):
         new = ListNode()
         new._next = self._top
