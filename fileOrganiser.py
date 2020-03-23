@@ -27,16 +27,16 @@ months = ["01-Jan", "02-Feb", "03-Mar", "04-Apr", "05-May", "06-Jun", "07-Jul",
 
 # iterates over all files in the directory collecting datestamps
 for fName in os.listdir():
-    if fName.endswith(".JPG") or fName.endswith(".CR2") or fName.endswith(".MOV"):
-        fYear = datetime.fromtimestamp(os.path.getmtime(fName)).strftime('%Y')
-        fMonth = months[int(datetime.fromtimestamp(os.path.getmtime(fName)).strftime('%m'))-1]
-        fDate = datetime.fromtimestamp(os.path.getmtime(fName)).strftime('%d')
-        
-        if os.path.isdir("tmp/"+fYear) == False:
-            os.mkdir("tmp/"+fYear)
-        if os.path.isdir("tmp/"+fYear+"/"+fMonth) == False:
-            os.mkdir("tmp/"+fYear+"/"+fMonth)
-        if os.path.isdir("tmp/"+fYear+"/"+fMonth+"/"+fDate) == False:
-            os.mkdir("tmp/"+fYear+"/"+fMonth+"/"+fDate)
-        copyfile(fName, "tmp/"+fYear+"/"+fMonth+"/"+fDate+"/"+fName)
-
+    if not fName.endswith(".JPG") or not fName.endswith(".CR2") or not fName.endswith(".MOV"):
+        continue
+    file_Year = datetime.fromtimestamp(os.path.getmtime(fName)).strftime('%Y')
+    file_Month = months[int(datetime.fromtimestamp(os.path.getmtime(fName)).strftime('%m'))-1]
+    file_Date = datetime.fromtimestamp(os.path.getmtime(fName)).strftime('%d')
+    
+    if os.path.isdir("tmp/"+file_Year) == False:
+        os.mkdir("tmp/"+file_Year)
+    if os.path.isdir("tmp/"+file_Year+"/"+file_Month) == False:
+        os.mkdir("tmp/"+file_Year+"/"+file_Month)
+    if os.path.isdir("tmp/"+file_Year+"/"+file_Month+"/"+file_Date) == False:
+        os.mkdir("tmp/"+file_Year+"/"+file_Month+"/"+file_Date)
+    copyfile(fName, "tmp/"+file_Year+"/"+file_Month+"/"+file_Date+"/"+fName)
