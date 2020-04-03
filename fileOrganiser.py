@@ -66,7 +66,7 @@ for file_Name in os.listdir():
         elif appendix[1] == "9":
             raise IOError("To many duplicates of:", origin_path + "/" + file_Name)
         else:
-            strange_log += "File: " + str(origin_path) + "/" + str(file_Name) + "had same name as " + str(dest_path) +"/"+str(file_Name) +"\n"            
+            strange_log += "File: " + str(origin_path) + "/" + str(file_Name) + "had same name as " + str(dest_path) +"/"+str(file_Name) +"\n"
             appendix = "_" + str(int(appendix[1])+1)
 
     if toCopy == False:
