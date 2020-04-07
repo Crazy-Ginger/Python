@@ -70,17 +70,18 @@ for file_Name in os.listdir():
         if appendix == "":
             appendix = "_1"
         elif appendix[1] == "9":
-            log += "To many duplicates of: " + str(origin_path) + "/" + str(file_Name) + "\n"
+            log += "To many duplicates of: " + str(origin_path) + str(file_Name) + "\n"
             toCopy = False
             break
         else:
             log += "File: " + str(origin_path) + "/" + str(file_Name) + "had same name as " + str(dest_path) +"/"+str(file_Name) +"\n"
             appendix = "_" + str(int(appendix[1])+1)
+
     if deleted == True:
-        log += "File: " + str(origin_path) + "/" + str(file_Name) + " was deleted from source\n"
+        log += "Duplicate: " + str(origin_path) + str(file_Name) + " was deleted"
         continue
     elif toCopy == False:
-        log += "File: " + str(origin_path) + "/" + str(file_Name) + " was a not moved/saved\n"
+        log += "File: " + str(origin_path) + str(file_Name) + " was a not moved/saved\n"
         continue
 
     # creates the year, month & date directories if they don't already exist
@@ -93,10 +94,10 @@ for file_Name in os.listdir():
 
     if args.copy:
         copy2(file_Name, dest_path + "/" + final_dest + "/" + file_Name + appendix)
-        log += "Copied " + file_Name + "as: " + dest_path + "/" +final_dest + "/" + file_Name + appendix
+        log += "Copied " + file_Name + "as: " + dest_path + final_dest + file_Name + appendix
     else:
         move(file_Name, dest_path + "/" +  final_dest + "/" + file_Name + appendix)
-        log += "Moved " + file_Name + "to: " + dest_path + "/" +final_dest + "/" + file_Name + appendix
+        log += "Moved " + file_Name + "to: " + dest_path  +final_dest + file_Name + appendix
 
 if os.path.isfile(dest_path + "/log.txt"):
     logger = open(dest_path + "/log.txt", "a+")
