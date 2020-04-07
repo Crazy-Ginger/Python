@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from datetime import datetime
+from datetime import datetime, date
 from filecmp import cmp
 from shutil import rmtree, disk_usage, move, copy2
 import os, argparse
@@ -43,10 +43,13 @@ if os.path.isdir(dest_path) == False:
 months = ["01-Jan", "02-Feb", "03-Mar", "04-Apr", "05-May", "06-Jun", "07-Jul",
           "08-Aug", "09-Sep", "10-Oct", "11-Nov", "12-Dec"]
 
-strange_log = ""
+log = ""
+test_itter = 0
 # iterates over all files in the directory collecting datestamps and placing them into directories of those dates
 for file_Name in os.listdir():
-    if not file_Name.endswith(".JPG") or not file_Name.endswith(".CR2") or not file_Name.endswith(".MOV"):
+    test_itter += 1
+    if (not file_Name.endswith(".JPG")) and (not file_Name.endswith(".CR2")) and (not file_Name.endswith(".MOV")):
+        log += "Skipping over " + file_Name + "\n"
         continue
     file_Year = datetime.fromtimestamp(os.path.getmtime(file_Name)).strftime('%Y')
     file_Month = months[int(datetime.fromtimestamp(os.path.getmtime(file_Name)).strftime('%m'))-1]
@@ -55,22 +58,29 @@ for file_Name in os.listdir():
     # checks if the file under that name exists, if it is not the same moves the file with an appendix, otherwise skips
     appendix = ""
     toCopy = True
-    while (os.path.isfile(dest_path + "/" + file_Name + appendix) == True):
-        if os.path.getsize(file_Name) == os.path.getsize(dest_path + "/" + file_Name + appendix):
-            if cmp(file_Name, dest_path + "/" + file_Name + "appendix") == True:
-                toCopy = False
+    deleted = False
+    final_dest = file_Year + "/" + file_Month + "/" + file_Date
+    while (os.path.isfile(dest_path + "/" + final_dest + "/" + file_Name + appendix) == True):
+        if os.path.getsize(file_Name) == os.path.getsize(dest_path + "/" + final_dest + "/" + file_Name + appendix):
+            if cmp(file_Name, dest_path + "/" + final_dest + "/" + file_Name + appendix) == True:
+                deleted = True
+                os.remove(file_Name)
                 break
 
         if appendix == "":
             appendix = "_1"
         elif appendix[1] == "9":
-            raise IOError("To many duplicates of:", origin_path + "/" + file_Name)
+            log += "To many duplicates of: " + str(origin_path) + "/" + str(file_Name) + "\n"
+            toCopy = False
+            break
         else:
-            strange_log += "File: " + str(origin_path) + "/" + str(file_Name) + "had same name as " + str(dest_path) +"/"+str(file_Name) +"\n"
+            log += "File: " + str(origin_path) + "/" + str(file_Name) + "had same name as " + str(dest_path) +"/"+str(file_Name) +"\n"
             appendix = "_" + str(int(appendix[1])+1)
-
-    if toCopy == False:
-        strange_log += "File: " + str(origin_path) + "/" + str(file_Name) + "was a duplicate\n"
+    if deleted == True:
+        log += "File: " + str(origin_path) + "/" + str(file_Name) + " was deleted from source\n"
+        continue
+    elif toCopy == False:
+        log += "File: " + str(origin_path) + "/" + str(file_Name) + " was a not moved/saved\n"
         continue
 
     # creates the year, month & date directories if they don't already exist
@@ -82,7 +92,16 @@ for file_Name in os.listdir():
         os.mkdir(dest_path + "/" + file_Year + "/" + file_Month + "/" + file_Date)
 
     if args.copy:
-        copy2(file_Name, dest_path + "/" + file_Year + "/" + file_Month + "/" + file_Date + "/" + file_Name + appendix)
+        copy2(file_Name, dest_path + "/" + final_dest + "/" + file_Name + appendix)
+        log += "Copied " + file_Name + "as: " + dest_path + "/" +final_dest + "/" + file_Name + appendix
     else:
-        move(file_Name, dest_path + "/" + file_Year + "/" + file_Month + "/" + file_Date + "/" + file_Name + appendix)
+        move(file_Name, dest_path + "/" +  final_dest + "/" + file_Name + appendix)
+        log += "Moved " + file_Name + "to: " + dest_path + "/" +final_dest + "/" + file_Name + appendix
 
+if os.path.isfile(dest_path + "/log.txt"):
+    logger = open(dest_path + "/log.txt", "a+")
+else:
+    logger = open(dest_path + "/log.txt", "w+")
+logger.write("Update: " + str(date.today()) + "\n")
+logger.write(log + "\n\n")
+logger.close()
