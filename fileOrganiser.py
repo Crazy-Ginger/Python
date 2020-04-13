@@ -11,17 +11,18 @@ dUsed = sum(d.stat().st_size for d in os.scandir() if d.is_file())
 if dFree <= dUsed:
     raise OSError("Disk too full to perform this operation")
 
-# parses arguments passed to program such as whether to copy or if a source and destination file has been set
+# parses arguments passed to program such as whether to copy or if a source and output file has been set
 parser = argparse.ArgumentParser()
 parser.add_argument("--copy", "-c", help="set the program to copy files instead of move", action="store_true")
-parser.add_argument("--origin", "-o", help="set the origin directory")
-parser.add_argument("--destination", "-d", help="set the destination directory")
+parser.add_argument("--delete", "-d", help="delete files from source if they are found in the output folder", action="store_true")
+parser.add_argument("--source", "-s", help="set the source directory")
+parser.add_argument("--output", "-o", help="set the output directory")
 parser.add_argument("--no-log", "-l", help="turn off the logging function", action="store_true")
 args = parser.parse_args()
 
-# if origin is passed as arg sets that, else uses some predefined defaults (dependant on os)
-if args.origin:
-    origin_path = args.origin
+# if source is passed as arg sets that, else uses some predefined defaults (dependant on os)
+if args.source:
+    origin_path = args.source
 else:
     if os.name == "posix":
         origin_path = os.path.expanduser("~")+"/Pictures/dump"
@@ -29,8 +30,8 @@ else:
         origin_path = "D:/Pictures/SD_BackUp/Dump"
 os.chdir(origin_path)
 
-if args.destination:
-    dest_path = args.destination
+if args.output:
+    dest_path = args.output
 else:
     dest_path = "../Photos"
 
@@ -48,7 +49,7 @@ test_itter = 0
 # iterates over all files in the directory collecting datestamps and placing them into directories of those dates
 for file_Name in os.listdir():
     test_itter += 1
-    if (not file_Name.endswith(".JPG")) and (not file_Name.endswith(".CR2")) and (not file_Name.endswith(".MOV")):
+    if (not file_Name.endswith(".JPG")) and (not file_Name.endswith(".CR2")):
         log += "Skipping over " + file_Name + "\n"
         continue
     file_Year = datetime.fromtimestamp(os.path.getmtime(file_Name)).strftime('%Y')
@@ -64,7 +65,6 @@ for file_Name in os.listdir():
         if os.path.getsize(file_Name) == os.path.getsize(dest_path + "/" + final_dest + "/" + file_Name + appendix):
             if cmp(file_Name, dest_path + "/" + final_dest + "/" + file_Name + appendix) == True:
                 deleted = True
-                os.remove(file_Name)
                 break
 
         if appendix == "":
@@ -77,8 +77,9 @@ for file_Name in os.listdir():
             log += "File: " + str(origin_path) + "/" + str(file_Name) + "had same name as " + str(dest_path) +"/"+str(file_Name) +"\n"
             appendix = "_" + str(int(appendix[1])+1)
 
-    if deleted == True:
-        log += "Duplicate: " + str(origin_path) + str(file_Name) + " was deleted"
+    if args.delete and deleted == True:
+        log += "Duplicate: " + str(origin_path) + str(file_Name) + " was deleted\n"
+        os.remove(file_Name)
         continue
     elif toCopy == False:
         log += "File: " + str(origin_path) + str(file_Name) + " was a not moved/saved\n"
@@ -94,9 +95,9 @@ for file_Name in os.listdir():
 
     if args.copy:
         copy2(file_Name, dest_path + "/" + final_dest + "/" + file_Name + appendix)
-        log += "Copied " + file_Name + "as: " + dest_path + final_dest + file_Name + appendix
+        log += "Copied " + file_Name + "as: " + dest_path + final_dest + file_Name + appendix +"\n"
     else:
-        move(file_Name, dest_path + "/" +  final_dest + "/" + file_Name + appendix)
+        move(file_Name, dest_path + "/" +  final_dest + "/" + file_Name + appendix + "\n"
         log += "Moved " + file_Name + "to: " + dest_path  +final_dest + file_Name + appendix
 
 if os.path.isfile(dest_path + "/log.txt"):
