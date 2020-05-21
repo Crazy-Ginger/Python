@@ -52,6 +52,7 @@ for file_Name in os.listdir():
     if (not file_Name.endswith(".JPG")) and (not file_Name.endswith(".CR2")):
         log += "Skipping over " + file_Name + "\n"
         continue
+
     file_Year = datetime.fromtimestamp(os.path.getmtime(file_Name)).strftime('%Y')
     file_Month = months[int(datetime.fromtimestamp(os.path.getmtime(file_Name)).strftime('%m'))-1]
     file_Date = datetime.fromtimestamp(os.path.getmtime(file_Name)).strftime('%d')
