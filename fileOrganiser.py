@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-from datetime import datetime, date
+import argparse
+import os
+from datetime import date, datetime
 from filecmp import cmp
-from shutil import rmtree, disk_usage, move, copy2
-import os, argparse
-
+from shutil import copy2, disk_usage, move, rmtree
 
 # checks there is enough space on the disk to duplicate all the images into a tree
 dFree = disk_usage("/").free
@@ -99,7 +99,7 @@ for file_Name in os.listdir():
         log += "Copied " + file_Name + "as: " + dest_path + final_dest + file_Name + appendix +"\n"
     else:
         move(file_Name, dest_path + "/" +  final_dest + "/" + file_Name + appendix + "\n"
-        log += "Moved " + file_Name + "to: " + dest_path  +final_dest + file_Name + appendix
+        log += "Moved " + str(file_Name) + "to: " + str(dest_path)  + str(final_dest) + str(file_Name) + str(appendix) + "\n"
 
 if os.path.isfile(dest_path + "/log.txt"):
     logger = open(dest_path + "/log.txt", "a+")
