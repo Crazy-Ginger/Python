@@ -79,14 +79,15 @@ for root, dirs, files in os.walk("."):
         # checks if the file under that name exists, if it is not the same moves the file with an appendix, otherwise skips
         appendix = ""
         toCopy = True
-        deleted = False
+        toDelete = False
         final_dest = file_Year + "/" + file_Month + "/" + file_Date
         while (os.path.isfile(dest_path + "/" + final_dest + "/" + file_Name + appendix)):
             # initial check of file size
             if os.path.getsize(source_path) == os.path.getsize(dest_path + "/" + final_dest + "/" + file_Name + appendix):
                 # true comparison of file
-                if cmp(source_path, dest_path + "/" + final_dest + "/" + file_Name + appendix):
-                    deleted = True
+                if cmp(source_path, dest_path + "/" + final_dest + "/" + file_Name + appendix, shallow=False):
+                    toDelete = True
+                    toCopy = False
                     break
 
             if appendix == "":
@@ -98,10 +99,17 @@ for root, dirs, files in os.walk("."):
             else:
                 log += "File: " + str(source_path) + "had same name as " + str(dest_path) + "/"+str(file_Name) + "\n"
                 appendix = "_" + str(int(appendix[1])+1)
+                toDelete = False
+                toCopy = True
 
-        if args.delete and deleted:
+        if args.delete and toDelete:
             log += "Duplicate: " + str(source_path) + " was deleted\n"
             os.remove(source_path)
+            continue
+
+        elif toDelete and not toCopy:
+            log += "File: " + str(source_path) + "/" + str(file_Name) + " is a duplicate in " + dest_path + "/" + file_Month + "/" + file_Date + "/\n"
+            continue
 
         elif not toCopy:
             log += "File: " + str(source_path) + " was a not moved/saved\n"
@@ -119,7 +127,7 @@ for root, dirs, files in os.walk("."):
             copy2(source_path, dest_path + "/" + final_dest + "/" + file_Name + appendix)
             log += "Copied " + str(source_path) + " as: " + dest_path + final_dest + file_Name + appendix + "\n"
         else:
-            move(source_path, dest_path + "/" + final_dest + "/" + file_Name + appendix + "\n")
+            move(source_path, dest_path + "/" + final_dest + "/" + file_Name + appendix)
             log += "Moved " + str(source_path) + " to: " + str(dest_path) + str(final_dest) + str(file_Name) + str(appendix) + "\n"
         logger.write(log)
         log = ""
