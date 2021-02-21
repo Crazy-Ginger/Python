@@ -3,7 +3,10 @@ import argparse
 import os
 from datetime import date, datetime
 from filecmp import cmp
-from shutil import copy2, disk_usage, move, rmtree
+from shutil import copy2, disk_usage, move
+from PIL import Image
+
+# shutil import rmtree # unsure of original use
 
 # checks there is enough space on the disk to duplicate all the images into a tree
 dFree = disk_usage("/").free
@@ -20,22 +23,23 @@ parser.add_argument("--output", "-o", help="set the output directory")
 parser.add_argument("--no-log", "-l", help="turn off the logging function", action="store_true")
 args = parser.parse_args()
 
-# if source is passed as arg sets that, else uses some predefined defaults (dependant on os)
+# if source is passed as arg sets that, uses current directo
 if args.source:
     origin_path = args.source
-else:
-    if os.name == "posix":
-        origin_path = os.path.expanduser("~")+"/Pictures/dump"
-    elif os.name == "nt":
-        origin_path = "D:/Pictures/SD_BackUp/Dump"
-os.chdir(origin_path)
+    os.chdir(origin_path)
+# else:
+    # if os.name == "posix":
+    #     origin_path = os.path.expanduser("~")+"/Pictures/dump"
+    # elif os.name == "nt":
+    #     origin_path = "D:/Pictures/SD_BackUp/Dump"
+
 
 if args.output:
     dest_path = args.output
 else:
     dest_path = "../Photos"
 
-if os.path.isdir(dest_path) == False:
+if not os.path.isdir(dest_path):
     os.mkdir(dest_path)
     # used to delete the pre-existing file structure with the sorted photos(?), now it should just add ones that don't alread exist
     # rmtree(dir_Name, True)
@@ -45,66 +49,85 @@ months = ["01-Jan", "02-Feb", "03-Mar", "04-Apr", "05-May", "06-Jun", "07-Jul",
           "08-Aug", "09-Sep", "10-Oct", "11-Nov", "12-Dec"]
 
 log = ""
-test_itter = 0
-# iterates over all files in the directory collecting datestamps and placing them into directories of those dates
-for file_Name in os.listdir():
-    test_itter += 1
-    if (not file_Name.endswith(".JPG")) and (not file_Name.endswith(".CR2")):
-        log += "Skipping over " + file_Name + "\n"
-        continue
-
-    file_Year = datetime.fromtimestamp(os.path.getmtime(file_Name)).strftime('%Y')
-    file_Month = months[int(datetime.fromtimestamp(os.path.getmtime(file_Name)).strftime('%m'))-1]
-    file_Date = datetime.fromtimestamp(os.path.getmtime(file_Name)).strftime('%d')
-
-    # checks if the file under that name exists, if it is not the same moves the file with an appendix, otherwise skips
-    appendix = ""
-    toCopy = True
-    deleted = False
-    final_dest = file_Year + "/" + file_Month + "/" + file_Date
-    while (os.path.isfile(dest_path + "/" + final_dest + "/" + file_Name + appendix) == True):
-        if os.path.getsize(file_Name) == os.path.getsize(dest_path + "/" + final_dest + "/" + file_Name + appendix):
-            if cmp(file_Name, dest_path + "/" + final_dest + "/" + file_Name + appendix) == True:
-                deleted = True
-                break
-
-        if appendix == "":
-            appendix = "_1"
-        elif appendix[1] == "9":
-            log += "To many duplicates of: " + str(origin_path) + str(file_Name) + "\n"
-            toCopy = False
-            break
-        else:
-            log += "File: " + str(origin_path) + "/" + str(file_Name) + "had same name as " + str(dest_path) +"/"+str(file_Name) +"\n"
-            appendix = "_" + str(int(appendix[1])+1)
-
-    if args.delete and deleted == True:
-        log += "Duplicate: " + str(origin_path) + str(file_Name) + " was deleted\n"
-        os.remove(file_Name)
-        continue
-    elif toCopy == False:
-        log += "File: " + str(origin_path) + str(file_Name) + " was a not moved/saved\n"
-        continue
-
-    # creates the year, month & date directories if they don't already exist
-    if os.path.isdir(dest_path + "/" + file_Year) == False:
-        os.mkdir(dest_path +"/" + file_Year)
-    if os.path.isdir(dest_path + "/" + file_Year + "/" + file_Month) == False:
-        os.mkdir(dest_path + "/" + file_Year + "/" + file_Month)
-    if os.path.isdir(dest_path + "/" + file_Year + "/" + file_Month + "/" + file_Date) == False:
-        os.mkdir(dest_path + "/" + file_Year + "/" + file_Month + "/" + file_Date)
-
-    if args.copy:
-        copy2(file_Name, dest_path + "/" + final_dest + "/" + file_Name + appendix)
-        log += "Copied " + file_Name + "as: " + dest_path + final_dest + file_Name + appendix +"\n"
-    else:
-        move(file_Name, dest_path + "/" +  final_dest + "/" + file_Name + appendix + "\n"
-        log += "Moved " + str(file_Name) + "to: " + str(dest_path)  + str(final_dest) + str(file_Name) + str(appendix) + "\n"
 
 if os.path.isfile(dest_path + "/log.txt"):
     logger = open(dest_path + "/log.txt", "a+")
 else:
     logger = open(dest_path + "/log.txt", "w+")
 logger.write("Update: " + str(date.today()) + "\n")
-logger.write(log + "\n\n")
+
+# iterates over all files in the directory collecting datestamps and placing them into directories of those dates
+for root, dirs, files in os.walk("."):
+    for file_Name in files:
+        if file_Name.lower().split(".")[-1] not in ["jpg", "cr2", "png", "gif", "tif"]:
+            log += "Skipping over " + file_Name + "\n"
+            continue
+
+        source_path = os.path.join(root, file_Name)
+        # try to get proper date taken via exif data
+        try:
+            take_date = Image.open(source_path).getexif()[36867].split(":")
+            file_Year = take_date[0]
+            file_Month = months[int(take_date[1])-1]
+            file_Date = take_date[2].split()[0]
+        # if failure rely on windows date created time
+        except KeyError:
+            file_Year = datetime.fromtimestamp(os.path.getmtime(source_path)).strftime('%Y')
+            file_Month = months[int(datetime.fromtimestamp(os.path.getmtime(source_path)).strftime('%m'))-1]
+            file_Date = datetime.fromtimestamp(os.path.getmtime(source_path)).strftime('%d')
+
+        # checks if the file under that name exists, if it is not the same moves the file with an appendix, otherwise skips
+        appendix = ""
+        toCopy = True
+        deleted = False
+        final_dest = file_Year + "/" + file_Month + "/" + file_Date
+        while (os.path.isfile(dest_path + "/" + final_dest + "/" + file_Name + appendix)):
+            # initial check of file size
+            if os.path.getsize(source_path) == os.path.getsize(dest_path + "/" + final_dest + "/" + file_Name + appendix):
+                # true comparison of file
+                if cmp(source_path, dest_path + "/" + final_dest + "/" + file_Name + appendix):
+                    deleted = True
+                    break
+
+            if appendix == "":
+                appendix = "_1"
+            elif appendix[1] == "9":
+                log += "To many duplicates of: " + str(source_path) + "\n"
+                toCopy = False
+                break
+            else:
+                log += "File: " + str(source_path) + "had same name as " + str(dest_path) + "/"+str(file_Name) + "\n"
+                appendix = "_" + str(int(appendix[1])+1)
+
+        if args.delete and deleted:
+            log += "Duplicate: " + str(source_path) + " was deleted\n"
+            os.remove(source_path)
+
+        elif not toCopy:
+            log += "File: " + str(source_path) + " was a not moved/saved\n"
+            continue
+
+        # creates the year, month & date directories if they don't already exist
+        if not os.path.isdir(dest_path + "/" + file_Year):
+            os.mkdir(dest_path + "/" + file_Year)
+        if not os.path.isdir(dest_path + "/" + file_Year + "/" + file_Month):
+            os.mkdir(dest_path + "/" + file_Year + "/" + file_Month)
+        if not os.path.isdir(dest_path + "/" + file_Year + "/" + file_Month + "/" + file_Date):
+            os.mkdir(dest_path + "/" + file_Year + "/" + file_Month + "/" + file_Date)
+
+        if args.copy:
+            copy2(source_path, dest_path + "/" + final_dest + "/" + file_Name + appendix)
+            log += "Copied " + str(source_path) + " as: " + dest_path + final_dest + file_Name + appendix + "\n"
+        else:
+            move(source_path, dest_path + "/" + final_dest + "/" + file_Name + appendix + "\n")
+            log += "Moved " + str(source_path) + " to: " + str(dest_path) + str(final_dest) + str(file_Name) + str(appendix) + "\n"
+        logger.write(log)
+        log = ""
+
+if os.path.isfile(dest_path + "/log.txt"):
+    logger = open(dest_path + "/log.txt", "a+")
+else:
+    logger = open(dest_path + "/log.txt", "w+")
+
+logger.write("\n\n")
 logger.close()
