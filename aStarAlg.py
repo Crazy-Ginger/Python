@@ -1,4 +1,5 @@
 from __future__ import print_function
+
 import matplotlib.pyplot as plt
 
 
@@ -34,9 +35,10 @@ class AStarGraph(object):
 			if b in barrier:
 				return 100 #Extremely high cost to enter barrier squares
 		return 1 #Normal movement cost
- 
+
+
 def AStarSearch(start, end, graph):
- 
+
 	G = {} #Actual movement cost to each position from the start position
 	F = {} #Estimated movement cost of start to end going via this position
  
@@ -89,15 +91,16 @@ def AStarSearch(start, end, graph):
 			F[neighbour] = G[neighbour] + H
  
 	raise RuntimeError("A* failed to find a solution")
- 
-if __name__=="__main__":
-	graph = AStarGraph()
-	result, cost = AStarSearch((0,0), (7,7), graph)
-	print ("route" ,result)
-	print ("cost" ,cost)
-	plt.plot([v[0] for v in result], [v[1] for v in result])
-	for barrier in graph.barriers:
-		plt.plot([v[0] for v in barrier], [v[1] for v in barrier])
-	plt.xlim(-1,8)
-	plt.ylim(-1,8)
-	plt.show()
+
+
+if __name__ == "__main__":
+    graph = AStarGraph()
+    result, cost = AStarSearch((0,0), (7,7), graph)
+    print ("route" ,result)
+    print ("cost" ,cost)
+    plt.plot([v[0] for v in result], [v[1] for v in result])
+    for barrier in graph.barriers:
+        plt.plot([v[0] for v in barrier], [v[1] for v in barrier])
+    plt.xlim(-1,8)
+    plt.ylim(-1,8)
+    plt.show()
