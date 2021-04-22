@@ -5,4 +5,4 @@ import os
 
 for file in os.listdir("test"):
     with exiftool.ExifTool() as et:
-        print (et.get_tag("CreateDate", file))
+        print(et.get_tag("CreateDate", file))
