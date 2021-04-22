@@ -1,6 +1,6 @@
 import os
 
-os.chdir("D:\\Photos\\TheySay1980")
+os.chdir("F:\\Photos\\TheySay1980")
 viewed_file = open("viewed.txt")
 viewed = []
 to_view = []
